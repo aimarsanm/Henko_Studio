@@ -1,33 +1,57 @@
 import { useEffect, useState } from "react";
+import Clases from "./Clases.jsx";
 import Contacto from "./Contacto.jsx";
+import Entrenos from "./Entrenos.jsx";
 import Home from "./Home.jsx";
+import Informacion from "./Informacion.jsx";
 import QuienesSomos from "./QuienesSomos.jsx";
 import Recetas from "./Recetas.jsx";
 import Servicios from "./Servicios.jsx";
 
 const NAV_LINKS = [
-  { href: "#inicio", label: "Inicio" },
-  { href: "#quienes-somos", label: "Quiénes somos" },
-  { href: "#servicios", label: "Servicios" },
-  { href: "#recetas", label: "Recetas" },
-  { href: "#contacto", label: "Contacto" },
+  { href: "/#inicio", label: "Inicio", page: "inicio" },
+  { href: "/#quienes-somos", label: "Quiénes somos", page: "quienes-somos" },
+  { href: "/servicios/", label: "Servicios", page: "servicios" },
+  { href: "/#recetas", label: "Recetas", page: "recetas" },
+  { href: "/#contacto", label: "Contacto", page: "contacto" },
 ];
 
-function getPageFromHash() {
+const SERVICE_LINKS = [
+  { href: "/servicios/#informacion", label: "Información" },
+  { href: "/servicios/#entrenos", label: "Entrenos" },
+  { href: "/servicios/#clases-y-reuniones", label: "Clases y reuniones" },
+];
+
+const SERVICE_PAGES = {
+  informacion: <Informacion />,
+  entrenos: <Entrenos />,
+  "clases-y-reuniones": <Clases />,
+};
+
+function getPageFromLocation() {
   const hash = window.location.hash.slice(1);
-  return NAV_LINKS.some((link) => link.href === `#${hash}`)
-    ? hash
-    : "inicio";
+  const isServicesRoute = /^\/servicios\/?$/.test(window.location.pathname);
+
+  if (isServicesRoute) {
+    return SERVICE_PAGES[hash] ? hash : "servicios";
+  }
+
+  const rootPage = NAV_LINKS.find((link) => link.href === `/#${hash}`);
+  return rootPage?.page ?? "inicio";
 }
 
 export default function HenkoStudio() {
-  const [currentPage, setCurrentPage] = useState(getPageFromHash);
+  const [currentPage, setCurrentPage] = useState(getPageFromLocation);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const syncPage = () => setCurrentPage(getPageFromHash());
+    const syncPage = () => setCurrentPage(getPageFromLocation());
     window.addEventListener("hashchange", syncPage);
-    return () => window.removeEventListener("hashchange", syncPage);
+    window.addEventListener("popstate", syncPage);
+    return () => {
+      window.removeEventListener("hashchange", syncPage);
+      window.removeEventListener("popstate", syncPage);
+    };
   }, []);
 
   useEffect(() => {
@@ -40,26 +64,66 @@ export default function HenkoStudio() {
     servicios: <Servicios />,
     recetas: <Recetas />,
     contacto: <Contacto />,
+    ...SERVICE_PAGES,
   }[currentPage];
+  const activeNavigationPage = Object.hasOwn(SERVICE_PAGES, currentPage)
+    ? "servicios"
+    : currentPage;
+
+  const renderNavigationLink = (link, mobile = false) => {
+    const linkElement = (
+      <a
+        href={link.href}
+        aria-current={activeNavigationPage === link.page ? "page" : undefined}
+        onClick={mobile ? () => setMenuOpen(false) : undefined}
+      >
+        {link.label}
+      </a>
+    );
+
+    if (link.page !== "servicios") {
+      return <span key={link.href}>{linkElement}</span>;
+    }
+
+    return (
+      <div
+        className={mobile ? "mobile-services" : "nav-dropdown"}
+        key={link.href}
+      >
+        {linkElement}
+        <div
+          className={mobile ? "mobile-service-links" : "service-submenu"}
+          aria-label="Páginas de servicios"
+        >
+          {SERVICE_LINKS.map((serviceLink) => (
+            <a
+              key={serviceLink.href}
+              href={serviceLink.href}
+              aria-current={
+                window.location.hash === serviceLink.href.slice("/servicios/".length)
+                  ? "page"
+                  : undefined
+              }
+              onClick={mobile ? () => setMenuOpen(false) : undefined}
+            >
+              {serviceLink.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="henko">
       <header className="header">
         <div className="header-inner">
-          <a className="logo-mark" href="#inicio" aria-label="Henko Studio, inicio">
+          <a className="logo-mark" href="/#inicio" aria-label="Henko Studio, inicio">
             <span className="logo-circle">H · S</span>
             <span className="display logo-word">Henko Studio</span>
           </a>
           <nav aria-label="Navegación principal">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                aria-current={currentPage === link.href.slice(1) ? "page" : undefined}
-              >
-                {link.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((link) => renderNavigationLink(link))}
           </nav>
           <button
             className="menu-btn"
@@ -75,22 +139,11 @@ export default function HenkoStudio() {
           className={`mobile-nav${menuOpen ? " open" : ""}`}
           aria-label="Navegación móvil"
         >
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              aria-current={currentPage === link.href.slice(1) ? "page" : undefined}
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) => renderNavigationLink(link, true))}
         </nav>
       </header>
 
-      <main className="page-main">
-        {page}
-      </main>
+      <main className="page-main">{page}</main>
 
       <footer>© {new Date().getFullYear()} Henko Studio</footer>
     </div>

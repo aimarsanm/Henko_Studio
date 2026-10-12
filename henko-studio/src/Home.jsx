@@ -32,8 +32,8 @@ export default function Home() {
             pilates para cuidar tu cuerpo a tu propio ritmo.
           </p>
           <div className="hero-actions">
-            <a className="btn primary" href="#servicios">Ver servicios</a>
-            <a className="btn" href="#contacto">Contactar</a>
+            <a className="btn primary" href="/servicios/">Ver servicios</a>
+            <a className="btn" href="/#contacto">Contactar</a>
           </div>
         </div>
         <div className="home-photos" aria-label="Imágenes de pilates">

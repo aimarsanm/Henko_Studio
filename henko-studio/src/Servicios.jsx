@@ -2,6 +2,7 @@ const SERVICIOS = [
   {
     tag: "01",
     title: "Información",
+    href: "/servicios/#informacion",
     description:
       "Antes de moverte, entiende cómo hacerlo bien: consejos para tus ejercicios, qué materiales te pueden servir en casa y todo lo que necesitas saber para empezar con seguridad.",
     items: ["Tips por ejercicio", "Materiales recomendados", "Preguntas frecuentes"],
@@ -9,6 +10,7 @@ const SERVICIOS = [
   {
     tag: "02",
     title: "Entrenos",
+    href: "/servicios/#entrenos",
     description:
       "Vídeos individuales, packs por objetivo y retos por tiempo limitado, pensados para practicar a tu ritmo, en cualquier momento del día.",
     items: ["Vídeos individuales", "Packs temáticos", "Retos"],
@@ -17,6 +19,7 @@ const SERVICIOS = [
   {
     tag: "03",
     title: "Clases y reuniones",
+    href: "/servicios/#clases-y-reuniones",
     description:
       "Agenda una clase virtual en directo o reserva una reunión individual para resolver dudas, ajustar tu plan o simplemente charlar sobre cómo va tu progreso.",
     items: ["Clases virtuales en directo", "Reuniones 1:1", "Reservas online"],
@@ -54,6 +57,9 @@ export default function Servicios() {
               {servicio.note && (
                 <span className="servicio-note">{servicio.note}</span>
               )}
+              <a className="servicio-link" href={servicio.href}>
+                Descubrir servicio <span aria-hidden="true">→</span>
+              </a>
             </article>
           ))}
         </div>

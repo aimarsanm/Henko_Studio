@@ -106,6 +106,47 @@ a { color: inherit; text-decoration: none; }
 .header nav a:hover,
 .header nav a[aria-current="page"] { color: var(--wine); }
 
+.nav-dropdown { position: relative; }
+
+.service-submenu {
+  position: absolute;
+  top: 100%;
+  left: -16px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  min-width: 210px;
+  padding: 8px 0;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 24px rgba(33, 29, 25, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  visibility: hidden;
+}
+
+.nav-dropdown:hover .service-submenu,
+.nav-dropdown:focus-within .service-submenu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.header nav .service-submenu a {
+  padding: 10px 16px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.header nav .service-submenu a:hover,
+.header nav .service-submenu a[aria-current="page"] {
+  color: var(--wine);
+  background: var(--bg);
+}
+
 .menu-btn {
   display: none;
   background: none;
@@ -281,8 +322,33 @@ a { color: inherit; text-decoration: none; }
 }
 
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 56px; }
-.about-card h3 { font-size: 22px; font-weight: 400; margin: 0 0 6px; }
+.about-card h2 { font-size: 22px; font-weight: 400; margin: 0 0 6px; }
 .about-card p { color: var(--ink-soft); font-size: 15px; margin: 0; }
+
+.instagram-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--wine);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.instagram-link:hover {
+  background-color: var(--wine);
+  color: var(--bg-alt);
+}
+
+.instagram-link:focus-visible {
+  outline: 2px solid var(--wine);
+  outline-offset: 3px;
+}
+
+.instagram-link svg { width: 20px; height: 20px; }
 
 .about-card .role {
   font-size: 12px;
@@ -341,6 +407,84 @@ a { color: inherit; text-decoration: none; }
 
 .servicio-card li { font-size: 13px; padding: 5px 0; color: var(--ink); }
 .servicio-note { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--wine); }
+
+.servicio-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--wine);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.servicio-link span { font-size: 18px; transition: transform 0.2s ease; }
+.servicio-link:hover span { transform: translateX(4px); }
+
+.servicio-detalle-page { background: var(--bg); }
+
+.detalle-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36px;
+  color: var(--wine);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.detalle-heading {
+  max-width: 760px;
+  margin: 0 auto 42px;
+  text-align: center;
+}
+
+.detalle-heading h1 {
+  font-size: clamp(36px, 6vw, 58px);
+  line-height: 1.1;
+  margin: 12px 0;
+}
+
+.detalle-subtitle { font-size: 19px; margin: 0 0 14px; }
+.detalle-intro { color: var(--ink-soft); font-size: 15px; margin: 0 auto; max-width: 650px; }
+.detalle-heading .servicio-note { display: inline-block; margin-top: 18px; }
+
+.detalle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.detalle-card {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 24px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+}
+
+.detalle-card .servicio-tag { font-size: 28px; }
+.detalle-card h2 { margin: 8px 0 10px; font-size: 19px; font-weight: 400; }
+.detalle-card p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.detalle-card ul { list-style: none; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); }
+.detalle-card li { position: relative; padding: 5px 0 5px 15px; color: var(--ink-soft); font-size: 13px; }
+.detalle-card li::before { content: "·"; position: absolute; left: 0; color: var(--wine); font-size: 20px; line-height: 1; }
+
+.detalle-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.detalle-action p { margin: 0; color: var(--ink-soft); font-size: 14px; }
 
 .floral-panel {
   background: var(--bg-alt);
@@ -419,6 +563,7 @@ footer {
 @media (max-width: 900px) {
   .servicios-grid { grid-template-columns: 1fr; }
   .servicio-card { min-height: 0; }
+  .detalle-grid { grid-template-columns: 1fr; }
   .section-head { gap: 28px; }
 }
 
@@ -427,7 +572,11 @@ footer {
   .header-inner > nav { display: none; }
   .menu-btn { display: flex; }
   .mobile-nav.open { display: flex !important; flex-direction: column; background: var(--bg); }
+  .mobile-nav > span { display: contents; }
+  .mobile-services { display: flex; flex-direction: column; }
   .mobile-nav a { padding: 13px 24px; border-top: 1px solid var(--line); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .mobile-service-links { display: flex; flex-direction: column; padding: 0 0 8px 16px; }
+  .mobile-nav .mobile-service-links a { padding-top: 9px; padding-bottom: 9px; font-size: 11px; color: var(--ink-soft); }
   .wrap { padding: 0 24px; }
   .home-intro { min-height: auto; padding: 56px 24px 64px; grid-template-columns: 1fr; gap: 36px; }
   .home-copy { max-width: none; }
@@ -440,6 +589,10 @@ footer {
   .whoami-photo { width: 140px; flex-basis: 140px; }
   .floral-panel { grid-template-columns: 1fr; padding: 32px 24px; gap: 28px; }
   .floral-panel h2 { font-size: 25px; }
+  .detalle-back { margin-bottom: 28px; }
+  .detalle-heading { margin-bottom: 32px; }
+  .detalle-card { padding: 24px 20px; }
+  .detalle-action { align-items: flex-start; flex-direction: column; }
   .contact-page { min-height: 480px; padding: 56px 24px; }
   .rrss-list { gap: 18px; }
 }

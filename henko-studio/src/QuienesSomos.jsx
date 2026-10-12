@@ -1,5 +1,32 @@
 import whoamiPhoto from "./assets/whoami.jpeg";
 
+function InstagramLink({ username, label }) {
+  return (
+    <a
+      className="instagram-link"
+      href={`https://www.instagram.com/${username}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Visitar el Instagram de ${label}`}
+      title={`Instagram de ${label}`}
+    >
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none" />
+      </svg>
+    </a>
+  );
+}
+
 export default function QuienesSomos() {
   return (
     <section className="page-section about-page">
@@ -23,15 +50,16 @@ export default function QuienesSomos() {
         </div>
 
         <article className="about-card">
-            <h2>Irati Serrano</h2>
-            <p>
-              Henko Studio es un espacio pensado para acompañarte en tu práctica
-              de pilates, ya sea que estés empezando o que lleves tiempo
-              entrenando. Aquí encontrarás información clara, rutinas grabadas
-              y la posibilidad de moverte en clases virtuales en directo, todo
-              diseñado para adaptarse a tu día a día.
-            </p>
-          </article>
+          <h2>Irati Serrano</h2>
+          <p>
+            Henko Studio es un espacio pensado para acompañarte en tu práctica
+            de pilates, ya sea que estés empezando o que lleves tiempo
+            entrenando. Aquí encontrarás información clara, rutinas grabadas y
+            la posibilidad de moverte en clases virtuales en directo, todo
+            diseñado para adaptarse a tu día a día.
+          </p>
+          <InstagramLink username="iratiiserrano" label="Irati Serrano" />
+        </article>
 
         <div className="about-grid">
           <article className="about-card">
@@ -43,6 +71,7 @@ export default function QuienesSomos() {
               y la posibilidad de moverte en clases virtuales en directo, todo
               diseñado para adaptarse a tu día a día.
             </p>
+            <InstagramLink username="thehenkostudio" label="Henko Studio" />
           </article>
           <article className="about-card">
             <span className="role">This is Floral</span>
@@ -52,6 +81,7 @@ export default function QuienesSomos() {
               pasiones distintas que comparten la misma idea: cuidar los
               detalles y acompañarte con algo hecho a conciencia.
             </p>
+            <InstagramLink username="this.is.floral" label="This is Floral" />
           </article>
         </div>
       </div>
