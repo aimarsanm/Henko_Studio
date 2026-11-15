@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import whoamiPhoto from "./assets/whoami.jpeg";
 import RECIPES from "./recipes.json";
 
-const RECIPE_IMAGES = import.meta.glob("./assets/*.{avif,jpg,jpeg,png,webp}", {
+const RECIPE_IMAGES = import.meta.glob("./assets/recetas/*.{avif,jpg,jpeg,png,webp}", {
   eager: true,
   import: "default",
   query: "?url",
@@ -14,7 +14,7 @@ function getRecipeImage(imagePath) {
   const image = RECIPE_IMAGES[imagePath];
   if (!image) {
     throw new Error(
-      `No se encontró la imagen "${imagePath}". Usa una ruta como "./assets/mi-receta.jpg".`,
+      `No se encontró la imagen "${imagePath}". Usa una ruta como "./assets/recetas/mi-receta.jpg".`,
     );
   }
 
@@ -181,7 +181,7 @@ export default function Recetas() {
                   rel="noopener noreferrer"
                 >
                   <InstagramIcon />
-                  Ver receta en Instagram
+                  Ver en Instagram
                 </a>
               </div>
             </div>

@@ -1,8 +1,8 @@
 [
   {
-    "title": "Bizcocho de limón",
-    "description": "Un bizcocho esponjoso con limón fresco, perfecto para acompañar la merienda.",
-    "image": null,
+    "title": "Sourdough bread",
+    "description": "Un pan",
+    "image": "./assets/recetas/sourdough_bread.png",
     "ingredients": [
       "3 huevos",
       "180 g de azúcar",
@@ -18,12 +18,12 @@
       "Incorpora la harina y la levadura tamizadas, mezclando lo justo.",
       "Hornea entre 35 y 40 minutos y deja enfriar antes de desmoldar."
     ],
-    "instagramUrl": "https://www.instagram.com/p/DffSFG3Kl8H/"
+    "instagramUrl": "https://www.instagram.com/lore.patisserie/p/DREtTGCjD9o/"
   },
   {
-    "title": "Cookies de chocolate",
+    "title": "Cookies",
     "description": "Cookies doradas por fuera y tiernas por dentro, con trocitos de chocolate.",
-    "image": null,
+    "image": "./assets/recetas/cookies.png",
     "ingredients": [
       "120 g de mantequilla a temperatura ambiente",
       "100 g de azúcar moreno",
@@ -39,7 +39,7 @@
       "Agrega la harina, el bicarbonato y la sal. Incorpora el chocolate.",
       "Forma bolas, sepáralas en la bandeja y hornea durante 10-12 minutos."
     ],
-    "instagramUrl": "https://www.instagram.com/p/DfNfpwWEWRp/?img_index=1"
+    "instagramUrl": "https://www.instagram.com/lore.patisserie/reel/DffSFG3Kl8H/"
   },
   {
     "title": "Tarta de queso",
