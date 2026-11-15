@@ -44,7 +44,7 @@ export default function QuienesSomos() {
             <h1 className="display">Un estudio, dos oficios</h1>
             <p className="lede">
               Henko Studio nace como un espacio de pilates cercano, y crece con
-              una parte dulce: recetas propias bajo el nombre This is Floral.
+              una parte dulce: recetas propias bajo el nombre Lore Patisserie.
             </p>
           </div>
         </div>
@@ -74,14 +74,14 @@ export default function QuienesSomos() {
             <InstagramLink username="thehenkostudio" label="Henko Studio" />
           </article>
           <article className="about-card">
-            <span className="role">This is Floral</span>
+            <span className="role">Lore Patisserie</span>
             <p>
               Soy la instructora de Henko Studio y, fuera de la esterilla,
-              también me dedico a la repostería a través de This is Floral. Dos
+              también me dedico a la repostería a través de Lore Patisserie. Dos
               pasiones distintas que comparten la misma idea: cuidar los
               detalles y acompañarte con algo hecho a conciencia.
             </p>
-            <InstagramLink username="this.is.floral" label="This is Floral" />
+            <InstagramLink username="lore.patisserie" label="Lore Patisserie" />
           </article>
         </div>
       </div>
