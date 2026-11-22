@@ -1,4 +1,5 @@
 import whoamiPhoto from "./assets/whoami.jpeg";
+import InstagramIcon from "./InstagramIcon.jsx";
 
 function InstagramLink({ username, label }) {
   return (
@@ -10,19 +11,7 @@ function InstagramLink({ username, label }) {
       aria-label={`Visitar el Instagram de ${label}`}
       title={`Instagram de ${label}`}
     >
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <rect x="3" y="3" width="18" height="18" rx="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none" />
-      </svg>
+      <InstagramIcon />
     </a>
   );
 }
@@ -52,11 +41,9 @@ export default function QuienesSomos() {
         <article className="about-card">
           <h2>Irati Serrano</h2>
           <p>
-            Henko Studio es un espacio pensado para acompañarte en tu práctica
-            de pilates, ya sea que estés empezando o que lleves tiempo
-            entrenando. Aquí encontrarás información clara, rutinas grabadas y
-            la posibilidad de moverte en clases virtuales en directo, todo
-            diseñado para adaptarse a tu día a día.
+            Soy Irati, instructora de pilates y creadora de Henko Studio.
+            Me gusta que moverse sea algo cercano y sin prisas: cada persona
+            tiene su ritmo y mi trabajo es acompañarte a encontrarlo.
           </p>
           <InstagramLink username="iratiiserrano" label="Irati Serrano" />
         </article>
@@ -76,10 +63,10 @@ export default function QuienesSomos() {
           <article className="about-card">
             <span className="role">Lore Patisserie</span>
             <p>
-              Soy la instructora de Henko Studio y, fuera de la esterilla,
-              también me dedico a la repostería a través de Lore Patisserie. Dos
-              pasiones distintas que comparten la misma idea: cuidar los
-              detalles y acompañarte con algo hecho a conciencia.
+              Fuera de la esterilla, la repostería es mi otra pasión. Lore
+              Patisserie reúne mis recetas propias: dos oficios distintos que
+              comparten la misma idea, cuidar los detalles y hacer las cosas
+              a conciencia.
             </p>
             <InstagramLink username="lore.patisserie" label="Lore Patisserie" />
           </article>

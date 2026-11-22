@@ -37,12 +37,14 @@ export default function Home() {
           </div>
         </div>
         <div className="home-photos" aria-label="Imágenes de pilates">
-          {PILATES_PHOTOS.map((photo) => (
+          {PILATES_PHOTOS.map((photo, index) => (
             <img
               key={photo.src}
               className={photo.className}
               src={photo.src}
               alt={photo.alt}
+              decoding="async"
+              {...(index > 0 ? { loading: "lazy" } : { fetchPriority: "high" })}
             />
           ))}
         </div>

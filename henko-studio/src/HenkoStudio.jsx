@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Clases from "./Clases.jsx";
 import Contacto from "./Contacto.jsx";
 import Entrenos from "./Entrenos.jsx";
@@ -28,6 +28,17 @@ const SERVICE_PAGES = {
   "clases-y-reuniones": <Clases />,
 };
 
+const PAGE_TITLES = {
+  inicio: "Pilates y movimiento consciente",
+  "quienes-somos": "Quiénes somos",
+  servicios: "Servicios",
+  recetas: "Recetas · Lore Patisserie",
+  contacto: "Contacto",
+  informacion: "Información",
+  entrenos: "Entrenos",
+  "clases-y-reuniones": "Clases y reuniones",
+};
+
 function getPageFromLocation() {
   const hash = window.location.hash.slice(1);
   const isServicesRoute = /^\/servicios\/?$/.test(window.location.pathname);
@@ -54,9 +65,30 @@ export default function HenkoStudio() {
     };
   }, []);
 
+  const isFirstRender = useRef(true);
+
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    document.title = `Henko Studio · ${PAGE_TITLES[currentPage] ?? ""}`;
+
+    // No desplazar en la carga inicial; respetar "reducir movimiento".
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   }, [currentPage]);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen]);
 
   const page = {
     inicio: <Home />,
@@ -116,6 +148,9 @@ export default function HenkoStudio() {
 
   return (
     <div className="henko">
+      <a className="skip-link" href="#contenido">
+        Saltar al contenido
+      </a>
       <header className="header">
         <div className="header-inner">
           <a className="logo-mark" href="/#inicio" aria-label="Henko Studio, inicio">
@@ -143,7 +178,7 @@ export default function HenkoStudio() {
         </nav>
       </header>
 
-      <main className="page-main">{page}</main>
+      <main className="page-main" id="contenido" tabIndex={-1}>{page}</main>
 
       <footer>© {new Date().getFullYear()} Henko Studio</footer>
     </div>

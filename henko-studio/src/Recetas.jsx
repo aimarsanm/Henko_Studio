@@ -1,28 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import whoamiPhoto from "./assets/whoami.jpeg";
-import RECIPES from "./recipes.json";
-
-const RECIPE_IMAGES = import.meta.glob("./assets/recetas/*.{avif,jpg,jpeg,png,webp}", {
-  eager: true,
-  import: "default",
-  query: "?url",
-});
-
-function getRecipeImage(imagePath) {
-  if (!imagePath) return null;
-
-  const image = RECIPE_IMAGES[imagePath];
-  if (!image) {
-    throw new Error(
-      `No se encontró la imagen "${imagePath}". Usa una ruta como "./assets/recetas/mi-receta.jpg".`,
-    );
-  }
-
-  return image;
-}
+import InstagramIcon from "./InstagramIcon.jsx";
+import RECIPES from "./recetas.js";
 
 function RecipeArtwork({ recipe, className = "" }) {
-  const image = getRecipeImage(recipe.image);
+  const image = recipe.image;
 
   if (image) {
     return (
@@ -30,6 +12,8 @@ function RecipeArtwork({ recipe, className = "" }) {
         className={`recipe-artwork ${className}`}
         src={image}
         alt={recipe.title}
+        loading="lazy"
+        decoding="async"
       />
     );
   }
@@ -38,7 +22,7 @@ function RecipeArtwork({ recipe, className = "" }) {
     <div
       className={`recipe-artwork recipe-artwork-placeholder ${className}`}
       role="img"
-      aria-label={`Espacio para la foto de ${recipe.title}`}
+      aria-label={`Foto próximamente de ${recipe.title}`}
     >
       <svg
         aria-hidden="true"
@@ -53,26 +37,8 @@ function RecipeArtwork({ recipe, className = "" }) {
         <circle cx="17" cy="20" r="3" />
         <path d="m7 34 11-10 8 7 6-5 9 8" />
       </svg>
-      <span>Añade aquí la foto de la receta</span>
+      <span>Foto próximamente</span>
     </div>
-  );
-}
-
-function InstagramIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none" />
-    </svg>
   );
 }
 
@@ -80,13 +46,19 @@ export default function Recetas() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const dialogRef = useRef(null);
 
+  const lastTriggerRef = useRef(null);
+
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!selectedRecipe || !dialog) return undefined;
 
     dialog.showModal();
+    document.body.style.overflow = "hidden";
     return () => {
+      document.body.style.overflow = "";
       if (dialog.open) dialog.close();
+      // Devuelve el foco a la tarjeta que abrió la receta.
+      lastTriggerRef.current?.focus();
     };
   }, [selectedRecipe]);
 
@@ -115,10 +87,13 @@ export default function Recetas() {
           {RECIPES.map((recipe) => (
             <button
               className="recipe-card"
-              key={recipe.title}
+              key={recipe.slug}
               type="button"
               aria-label={`Ver receta: ${recipe.title}`}
-              onClick={() => setSelectedRecipe(recipe)}
+              onClick={(event) => {
+                lastTriggerRef.current = event.currentTarget;
+                setSelectedRecipe(recipe);
+              }}
             >
               <RecipeArtwork recipe={recipe} />
               <span className="recipe-card-title">{recipe.title}</span>
@@ -174,15 +149,17 @@ export default function Recetas() {
                     <li key={step}>{step}</li>
                   ))}
                 </ol>
-                <a
-                  className="btn primary recipe-instagram-link"
-                  href={selectedRecipe.instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <InstagramIcon />
-                  Ver en Instagram
-                </a>
+                {selectedRecipe.instagramUrl && (
+                  <a
+                    className="btn primary recipe-instagram-link"
+                    href={selectedRecipe.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <InstagramIcon />
+                    Ver en Instagram
+                  </a>
+                )}
               </div>
             </div>
           )}
